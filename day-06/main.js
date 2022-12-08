@@ -2,6 +2,8 @@ const fs = require("fs")
 
 const input = fs.readFileSync('./input.txt').toString();
 
+// https://adventofcode.com/2022/day/6
+
 // Challenge 1
 // find packet-start
 let count = 4;

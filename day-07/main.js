@@ -3,6 +3,8 @@ const fs = require("fs")
 
 const input = fs.readFileSync('./input.txt').toString();
 
+// // https://adventofcode.com/2022/day/7
+
 // Challenge 1
 // find packet-start
 let commands = input.split("$ cd ")

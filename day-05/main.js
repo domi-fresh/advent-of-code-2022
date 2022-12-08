@@ -2,6 +2,8 @@ const fs = require("fs")
 
 const input = fs.readFileSync('./input.txt').toString();
 
+// https://adventofcode.com/2022/day/5
+
 // Challenge 1
 let cargo = [[], [], [], [], [], [], [], [], []]
 input.split("\n")

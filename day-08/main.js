@@ -3,6 +3,8 @@ const fs = require("fs")
 
 const input = fs.readFileSync('./input.txt').toString();
 
+// https://adventofcode.com/2022/day/8
+
 // Challenge 1
 
 let grid = input.split("\n").map(line => line.split("").map(tree => Number(tree)))
@@ -72,6 +74,8 @@ visible_trees = is_visible_grid.reduce( (acc, row) => acc + (row.reduce((inner_a
 
 console.log("\nTrees visible: " + visible_trees + "\n")
 
+
+// Challenge 2:
 
 let get_sight = (array, x, y, height) => {
 

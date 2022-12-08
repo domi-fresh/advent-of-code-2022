@@ -2,6 +2,8 @@ const fs = require("fs")
 
 const input = fs.readFileSync('./input.txt').toString();
 
+// https://adventofcode.com/2022/day/4
+
 // Challenge 1
 const containedPairs = input.split("\n").map(line => line.split(",")
     .map(range => range.split("-")
