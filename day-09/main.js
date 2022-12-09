@@ -15,7 +15,7 @@ let comparePositions = (arr, knot) => {
     }
 }
 
-let catchUp = (posList, head, tail) => {
+let catchUp = (head, tail) => {
     let deltaX = head[0]-tail[0]
     let deltaY = head[1]-tail[1]
     if(Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1){
@@ -26,51 +26,22 @@ let catchUp = (posList, head, tail) => {
 }
 
 let execCommand = (command, posList, rope) => {
-
-    switch(command[0]){
-        case "R": {
-            for(i = 0; i<Number(command[1]); i++){
-                rope[0][0]++
-                for(j = 0; j < rope.length-1; j++){
-                    rope[j+1] = catchUp(posList, rope[j], rope[j+1])
-                }
-                comparePositions(posList, rope[rope.length-1])
-            }
-            break
+    for(i = 0; i<Number(command[1]); i++){
+        switch(command[0]){
+            case "R":   rope[0][0]++
+                        break
+            case "L":   rope[0][0]--
+                        break
+            case "U":   rope[0][1]++
+                        break
+            case "D":   rope[0][1]--
+                        break
+            default: console.log("Command is unknown\n")
         }
-        case "L": {
-            for(i = 0; i<Number(command[1]); i++){
-                rope[0][0]--
-                for(j = 0; j < rope.length-1; j++){
-                    rope[j+1] = catchUp(posList, rope[j], rope[j+1])
-                }
-                comparePositions(posList, rope[rope.length-1])
-            }
-            break
+        for(j = 0; j < rope.length-1; j++){
+            rope[j+1] = catchUp(rope[j], rope[j+1])
         }
-        case "U": {
-            for(i = 0; i<Number(command[1]); i++){
-                rope[0][1]++
-                for(j = 0; j < rope.length-1; j++){
-                    rope[j+1] = catchUp(posList, rope[j], rope[j+1])
-                }
-                comparePositions(posList, rope[rope.length-1])
-            }
-            break
-        }
-        case "D": {
-            for(i = 0; i<Number(command[1]); i++){
-                rope[0][1]--
-                for(j = 0; j < rope.length-1; j++){
-                    rope[j+1] = catchUp(posList, rope[j], rope[j+1])
-                }
-                comparePositions(posList, rope[rope.length-1])
-            }
-            break
-        }
-        default: {
-            console.log("Command is unknown\n")
-        }
+        comparePositions(posList, rope[rope.length-1])
     }
 }
 
@@ -79,22 +50,16 @@ let knots = [[0, 0], [0, 0]]
 commands.forEach(command => execCommand(command, positionList, knots))
 
 console.log("Challenge 1: ")
-//console.log("Positions: " + positionList)
 console.log("Number of positions visited by tail: " + positionList.length)
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Challenge 2:
-console.log("-------------------------------------------------" + "\n"
-             + "-------------------------------------------------")
+console.log("-------------------------------------------------" + "\n" + "-------------------------------------------------")
 
 knots = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-
 positionList = [[0, 0]]
 
 commands.forEach(command => execCommand(command, positionList, knots))
 
 console.log("Challenge 2: ")
-//console.log("Positions: " + positionList)
 console.log("Number of positions visited by tail: " + positionList.length)
