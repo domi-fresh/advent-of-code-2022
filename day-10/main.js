@@ -37,15 +37,15 @@ console.log("-------------------------------------------------------------------
 
 let computeImage = (commands) => {
     let registerX = 1
-    let cycle = 1
+    let cycle = 0
     let output = Array(6).fill("")
 
     commands.forEach(command => {
         for(i = 0; i < command.length; i++){
-            if(Math.abs(registerX - (cycle-1)%40) <= 1){
-                output[Math.floor((cycle-1)/40)] += "#"
+            if(Math.abs(registerX - cycle%40) <= 1){
+                output[Math.floor(cycle/40)] += "#"
             }else{
-                output[Math.floor((cycle-1)/40)] += "."
+                output[Math.floor(cycle/40)] += "."
             }
             cycle++
         }
