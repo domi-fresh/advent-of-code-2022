@@ -147,7 +147,7 @@ function findMostGeodes (bp, time, ore, clay, obsidian, geodes, oreBots, clayBot
     return  [maxGeodes[0], maxGeodes[1]]
 }
 
-let timeToGather = 24
+let timeToGather = 27
 
 console.time("Start")
 let geodesProduced = [...blueprints].map(bp => {console.log(bp.name);return [findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, ORE),
@@ -156,8 +156,13 @@ let geodesProduced = [...blueprints].map(bp => {console.log(bp.name);return [fin
                                                     findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, GEODE)].reduce((acc, strategy) => {if(strategy[0]>acc[0]){return strategy}else{return acc}}, [0, "fail"])})
 // console.log(geodesProduced[0])
 // console.log(geodesProduced[1])
-let bpQualities = geodesProduced.map((e, index) => e[0]*(index+1))
+let bpQualities = [...geodesProduced].map((e, index) => e[0]*(index+1))
 console.log({bpQualities})
+let product = 1
+geodesProduced.forEach(g => product*=g[0])
 let sum = bpQualities.reduce((acc, q) => acc+q, 0)
 console.log("Sum of all bpQualities*bpNumbers = " + sum)
+
+console.log("Product of all geodesProduced = " + product)
+
 console.timeEnd("Start")
