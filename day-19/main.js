@@ -13,17 +13,29 @@ const GEODE = 3
 let blueprints = input.split("\n").map(line => line.split("robot costs "))
 blueprints.forEach(line => line.shift())
 blueprints = blueprints.map(bp => bp.map(line => line.split("ore").map(chunk => chunk.trim())))
-blueprints = blueprints.map((bp,index) => {return {name: `blueprint ${index +1}`,oreBot: {ore: Number(bp[0][0])}, clayBot: {ore: Number(bp[1][0])}, obsidianBot: {ore: Number(bp[2][0]), clay: Number(bp[2][1].substring(4, 6).trim())}, geodeBot: {ore: Number(bp[3][0]), obsidian: Number(bp[3][1].substring(4, 6).trim())}}})
+blueprints = blueprints.map((bp,index) => {return {name: `bp ${index +1}`,oreBot: {ore: Number(bp[0][0])}, clayBot: {ore: Number(bp[1][0])}, obsidianBot: {ore: Number(bp[2][0]), clay: Number(bp[2][1].substring(4, 6).trim())}, geodeBot: {ore: Number(bp[3][0]), obsidian: Number(bp[3][1].substring(4, 6).trim())}}})
 //console.log(blueprints)
 
 function findMostGeodes (bp, time, ore, clay, obsidian, geodes, oreBots, clayBots, obsidianBots, geodeBots, mode){
+    let message = ""
+    //console.log(bp.name + "\ttime: " + time + "\tore: " + ore + "\tclay: " + clay + "\tobs: " + obsidian + "\tgeodes: " + geodes + "\toreBots: " + oreBots + "\tclayBots: " + clayBots + "\tobsBots: " + obsidianBots + "\tgeodeBots: " + geodeBots)
+    if(time == 4 && (bp.geodeBot.ore>ore+2*oreBots+1 || bp.geodeBot.obsidian>obsidian+2*obsidianBots+1)){
+        return [geodes + 4*geodeBots, []]
+    }
+    if(time == 3 && (mode != GEODE || bp.geodeBot.ore>ore+(oreBots) || bp.geodeBot.obsidian>obsidian+(obsidianBots))){
+        return [geodes + 3*geodeBots, []]
+    }
+    if(time == 2 && (mode != GEODE || bp.geodeBot.ore>ore || bp.geodeBot.obsidian>obsidian)){
+        return [geodes + 2*geodeBots, []]
+    }
+
     if(time == 1 ){
         return [geodes + geodeBots, []]
     }
+    
     if(time == 0){
         return [geodes, []]
     }
-    let message = ""
 
     switch(mode){
         case ORE: {
@@ -135,8 +147,17 @@ function findMostGeodes (bp, time, ore, clay, obsidian, geodes, oreBots, clayBot
     return  [maxGeodes[0], maxGeodes[1]]
 }
 
+let timeToGather = 24
+
 console.time("Start")
-let bpQualities = [...blueprints].map(bp => findMostGeodes(bp, 24, 0, 0, 0, 0, 1, 0, 0, 0, CLAY))
-console.log(bpQualities[0])
-console.log(bpQualities[1])
+let geodesProduced = [...blueprints].map(bp => {console.log(bp.name);return [findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, ORE),
+                                                    findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, CLAY),
+                                                    findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, OBSIDIAN),
+                                                    findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, GEODE)].reduce((acc, strategy) => {if(strategy[0]>acc[0]){return strategy}else{return acc}}, [0, "fail"])})
+// console.log(geodesProduced[0])
+// console.log(geodesProduced[1])
+let bpQualities = geodesProduced.map((e, index) => e[0]*(index+1))
+console.log({bpQualities})
+let sum = bpQualities.reduce((acc, q) => acc+q, 0)
+console.log("Sum of all bpQualities*bpNumbers = " + sum)
 console.timeEnd("Start")
