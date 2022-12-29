@@ -1,7 +1,7 @@
 const fs = require("fs");
 const input = fs.readFileSync('./input.txt').toString();
 
-// https://adventofcode.com/2022/day/21
+// https://adventofcode.com/2022/day/25
 
 
 // Challenge 1

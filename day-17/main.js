@@ -36,7 +36,7 @@ let height = 0
 let width = 7
 let cave = []
 let commandNumber = 0
-let numberOfRocks = 2022
+let numberOfRocks = 1000000000000
 
 let base = 0
 let heightOne = 0
@@ -85,7 +85,7 @@ for(let n = 0; n < numberOfRocks; n++){
         }
     }
     
-    if(n%5 == 0){
+    if(n%5 == 0 && numberOfRocks > 10000){
         let topLevel = Array(width).fill(".")
         cave.forEach(rock => rock.compartments.forEach(comp => {if(comp.y == height-1){topLevel[comp.x] = "#"}}))
 
@@ -126,6 +126,7 @@ for(let n = 0; n < numberOfRocks; n++){
             }
             
         }
+        
 
     }
 
@@ -182,3 +183,13 @@ for(let n = 0; n < numberOfRocks; n++){
 console.log({height})
 console.log({commandNumber})
 console.log("done")
+
+
+// too low:
+// 1558285642
+
+// too high:
+// 
+
+
+//1558285714232

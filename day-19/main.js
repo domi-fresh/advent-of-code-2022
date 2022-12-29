@@ -147,7 +147,7 @@ function findMostGeodes (bp, time, ore, clay, obsidian, geodes, oreBots, clayBot
     return  [maxGeodes[0], maxGeodes[1]]
 }
 
-let timeToGather = 27
+let timeToGather = 24
 
 console.time("Start")
 let geodesProduced = [...blueprints].map(bp => {console.log(bp.name);return [findMostGeodes(bp, timeToGather, 0, 0, 0, 0, 1, 0, 0, 0, ORE),
