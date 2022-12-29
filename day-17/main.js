@@ -37,7 +37,20 @@ let width = 7
 let cave = []
 let commandNumber = 0
 let numberOfRocks = 2022
+
 let base = 0
+let heightOne = 0
+let heightTwo = 0
+let n1 = 0
+let n2 = 0
+let heightDiff = -1
+let comNums = []
+
+let first = true
+let last = false
+let f = 0
+let pairFound = false
+
 for(let n = 0; n < numberOfRocks; n++){
     let rock = {compartments: []}
     switch(n%5){
@@ -71,12 +84,58 @@ for(let n = 0; n < numberOfRocks; n++){
             console.log("Error in modulus")
         }
     }
+    
+    if(n%5 == 0){
+        let topLevel = Array(width).fill(".")
+        cave.forEach(rock => rock.compartments.forEach(comp => {if(comp.y == height-1){topLevel[comp.x] = "#"}}))
+
+        if((topLevel[3] == "#" 
+        || topLevel[0] == "#" && topLevel[4] == "#"
+        || topLevel[1] == "#" && (topLevel[4]=="#" || topLevel[5]=="#")
+        || topLevel[2]=="#" && (topLevel[4]=="#" || topLevel[5]=="#" || topLevel[6]=="#")
+        ) 
+        && f < 100000){
+            f++
+            cave = []
+            base = height
+            comNums.forEach(e => {if(e[0] == commandNumber && !pairFound){pairFound = true}})
+            if(pairFound){
+                f=numberOfRocks
+                heightOne = comNums[comNums.findIndex(e => e[0]==commandNumber)][1]
+                n1 = comNums[comNums.findIndex(e => e[0]==commandNumber)][2]
+                first = !first
+                heightTwo = height
+                n2 = n
+                last = !last
+                console.log({heightOne})
+                console.log({n1})
+                console.log({heightTwo})
+                console.log({n2})
+                console.log({commandNumber})
+                heightDiff = heightTwo - heightOne
+                let nDiff = n2-n1
+                n = Math.floor((numberOfRocks-n1)/nDiff)*nDiff+n1
+                height = heightOne + heightDiff*Math.floor((numberOfRocks-n1)/nDiff)
+                base = height
+                console.log({heightDiff})
+                console.log({nDiff})
+                console.log({commandNumber})
+                console.log({height})
+            }else{
+                comNums.push([commandNumber, height, n])
+            }
+            
+        }
+
+    }
+
     let falling = true
     while(falling){
         let command = commands[commandNumber]
         commandNumber = (commandNumber+1)%commands.length
+        // console.log({commandNumber})
         if(commandNumber == 0){
-        console.log(n%5)
+        //console.log(n%5)
         }
         let deltaX = 1
         if(command == "<"){
@@ -105,19 +164,21 @@ for(let n = 0; n < numberOfRocks; n++){
 
 
     height = Math.max(height, rock.compartments.reduce((acc, comp) => {return Math.max(acc, comp.y)}, 0)+1)
-    if(commandNumber == 0){
-        let topLevel = Array(width).fill(".")
-        cave.forEach(rock => rock.compartments.forEach(comp => {if(comp.y == height-1){topLevel[comp.x] = "#"}}))
-        // if(topLevel.reduce((acc, e) => {return e&&acc}, true)){
-        //     console.log({n})
-        // }
-        console.log(topLevel.join(""))
-    }
+    // if(commandNumber == 0){
+    //     let topLevel = Array(width).fill(".")
+    //     cave.forEach(rock => rock.compartments.forEach(comp => {if(comp.y == height-1){topLevel[comp.x] = "#"}}))
+    //     // if(topLevel.reduce((acc, e) => {return e&&acc}, true)){
+    //     //     console.log({n})
+    //     // }
+    //     console.log(topLevel.join(""))
+    // }
 }
-let caveArray = Array(height).fill(0).map(line => Array(7).fill("."))
 
-cave.forEach(rock => rock.compartments.forEach(comp => caveArray[comp.y][comp.x] = "#"))
+// let caveArray = Array(height).fill(0).map(line => Array(7).fill("."))
 
-caveArray.reverse().forEach(line => console.log(line.join("")))
+// cave.forEach(rock => rock.compartments.forEach(comp => caveArray[comp.y][comp.x] = "#"))
+
+//caveArray.reverse().forEach(line => console.log(line.join("")))
 console.log({height})
 console.log({commandNumber})
+console.log("done")
