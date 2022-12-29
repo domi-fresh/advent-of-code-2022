@@ -177,13 +177,14 @@ let bfs2 = (startValve, valves) => {
 //     return addedFlow + bestRelease
         
 // }
+let bestRelease = 0
 
 function bruteForceBoth(mytime, eletime, mytar, eletar, mytimetotar, eletimetotar, valves, valvesAlreadyOpened){
     if(mytime <= 0 && eletime<= 0 || valvesAlreadyOpened.length == valves.length){
         return 0
     }
     let addedFlow = 0
-    let bestRelease = 0
+
     let msg = []
     let oldmsg = []
 
@@ -242,7 +243,7 @@ function bruteForceBoth(mytime, eletime, mytar, eletar, mytimetotar, eletimetota
                 }})
             }})
 
-    }else
+    }else{
     if(mytime > 1){
         if(mytimetotar <= 0){
             let mynewtime = mytime
@@ -269,7 +270,7 @@ function bruteForceBoth(mytime, eletime, mytar, eletar, mytimetotar, eletimetota
                 }
             }})
         }
-    }else
+    }
     if(eletime > 1){
         if(eletimetotar <= 0){
             let elenewtime = eletime
@@ -297,6 +298,7 @@ function bruteForceBoth(mytime, eletime, mytar, eletar, mytimetotar, eletimetota
             }})
         }
     }
+}
     return [addedFlow + bestRelease, [...msg, ...oldmsg]]
         
 }

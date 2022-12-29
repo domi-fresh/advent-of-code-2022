@@ -11,22 +11,13 @@ let numbers = input.split("\n").map(n => {return {number: Number(n)}})
 function sort(numbers, times){
     
     let array = [...numbers]
-    let length = array.length
+    let length = array.length-1
     for(let i = 0; i < times; i++){
-        console.log(`round ${i}:`)
     numbers.forEach(element => {
         let oldIndex = array.indexOf(element)
-        let newIndex = ((oldIndex+element.number+ Math.floor((oldIndex+element.number)/length))%length+length)%length
-        // if(oldIndex+element.number <= 0){newIndex = ((newIndex + Math.floor((oldIndex+element.number)/length)) % length + length) % length}
-        // if(oldIndex+element.number >= array.length){newIndex = ((newIndex + Math.floor((oldIndex+element.number)/length)) % length + length) % length}
+        let newIndex = ((oldIndex+element.number)%length+length)%length
          array.splice(oldIndex, 1)
          array.splice(newIndex, 0, element)
-
-        // console.log("Number : " + element.number)
-        // console.log({oldIndex})
-        // console.log({newIndex})
-
-        console.log({array})
     })
     }
     return array
@@ -43,8 +34,9 @@ console.log({sum})
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Challenge 2
 
-let decKey = Math.floor(811589153/numbers.length)
+let decKey = 811589153
 let newNumbers = [...numbers].map(num => {return {number: num.number*decKey}})
+console.log({newNumbers})
 
 let sortedTwo = sort(newNumbers, 10)
 let sumTwo = 0
@@ -53,13 +45,6 @@ for(let i = 1000; i <= 3000; i+=1000){
     sumTwo += sortedTwo[((i+sortedTwo.findIndex(e => e.number == 0))%sortedTwo.length+sortedTwo.length)%sortedTwo.length].number
 }
 console.log({sumTwo})
-
-console.log("decKey % numbers.length")
-console.log(decKey % numbers.length)
-console.log("decKey / numbers.length")
-console.log(decKey / numbers.length)
-
-// Initial arrangement:
 // 811589153, 1623178306, -2434767459, 2434767459, -1623178306, 0, 3246356612
 
 // After 1 round of mixing:
