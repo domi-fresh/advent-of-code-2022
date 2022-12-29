@@ -49,47 +49,6 @@ console.log("Challenge 1: rootMonkey has number: " + rootMonkey.value)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 // Challenge 2
 
-
-let evaluate2 = (calc, monkeys) => {
-    if(calc.isEvaluated){
-        return calc.value
-    }
-    if(typeof(calc.value.left) == "string"){
-        let left = monkeys[monkeys.findIndex(e => e.name == calc.value.left)]
-        calc.value.left = evaluate(left, monkeys)
-    }
-    if(typeof(calc.value.right) == "string"){
-        let right = monkeys[monkeys.findIndex(e => e.name == calc.value.right)]
-        calc.value.right = evaluate(right, monkeys)
-    }
-
-    calc.isEvaluated = true
-
-    if(calc.name == "root"){
-        console.log("rootLeft: " + calc.value.left)
-        console.log("rootRight: " + calc.value.right)
-        return calc.value.left == calc.value.right
-    }
-
-    switch(calc.value.operator){
-        case "+": {
-            return calc.value.left + calc.value.right
-        }
-        case "-": {
-            return calc.value.left - calc.value.right
-        }
-        case "*": {
-            return calc.value.left * calc.value.right
-        }
-        case "/": {
-            return calc.value.left / calc.value.right
-        }
-        default: {
-            console.log("error")
-        }
-    }    
-}
-
 let monkeys2 = input.split("\n").map(line => line.split(": "))
 monkeys2 = monkeys2.map(mon => {let name = mon[0]; let calc = mon[1]; if(calc.split(" ").length == 1){return {"name": name, isEvaluated: true, value: Number(calc)}}else{return {"name": name, isEvaluated: false, value: {left: calc.split(" ")[0], right: calc.split(" ")[2], operator: calc.split(" ")[1]}}}})
 
@@ -158,13 +117,13 @@ let findNumber = (calc, expected, monkeys) => {
                     newExpected -= calc.value.left
                 }break
                 case "-": {
-                    newExpected += calc.value.left
+                    newExpected = calc.value.left - newExpected
                 }break
                 case "*": {
                     newExpected = newExpected/calc.value.left
                 }break
                 case "/": {
-                    newExpected *= calc.value.left
+                    newExpected = calc.value.left/newExpected
                 }break
                 default: {
                     console.log(calc.value.operator)
@@ -173,7 +132,6 @@ let findNumber = (calc, expected, monkeys) => {
             return findNumber(right, newExpected, monkeys)
         }else{console.log("error in dependencies")}
     }
-    return undefined
 }
 
 //console.log(dependsOnHumn(monkeys2[monkeys2.findIndex(e => e.name == rootMonkey2.value.right)], monkeys2))
